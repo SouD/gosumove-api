@@ -1,0 +1,26 @@
+name: gosumove-api
+recipe: laravel
+config:
+  php: '8.1'
+  cache: redis:6
+  webroot: public
+  composer_version: '2.3.8'
+  via: nginx
+  database: postgres:14
+  xdebug: false
+services:
+  cache:
+    portforward: 6379
+  database:
+    portforward: 3306
+    creds:
+      database: gosumove_dev
+tooling:
+  redis-cli:
+    service: cache
+  phpunit:
+    service: appserver
+    cmd: vendor/bin/phpunit
+  phpcs:
+    service: appserver
+    cmd: vendor/bin/phpcs
