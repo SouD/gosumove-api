@@ -8,15 +8,18 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->string('name')
+                ->unique();
+            $table->timestamps();
+
+            $table->primary('id');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('roles');
     }
 };

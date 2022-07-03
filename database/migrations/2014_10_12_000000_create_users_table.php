@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up()
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id');
@@ -22,10 +22,12 @@ return new class extends Migration {
             $table->timestamp('last_login_at')
                 ->nullable();
             $table->timestamps();
+
+            $table->primary('id');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('users');
     }

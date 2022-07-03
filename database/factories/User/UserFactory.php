@@ -1,8 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Database\Factories;
+namespace Database\Factories\User;
 
+use App\Enums\Auth\PermissionNameEnum;
+use App\Enums\Auth\RoleNameEnum;
+use App\Models\Auth\Permission;
+use App\Models\Auth\Role;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -29,15 +34,13 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * @return static
-     */
-    public function unverified()
+    public function configure(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
+        return $this->afterCreating(function (User $user) {
+            $user->roles()
+                ->attach(Role::where('name', RoleNameEnum::USER)->first());
+            $user->permissions()
+                ->attach(Permission::where('name', PermissionNameEnum::AUTH_LOGIN)->first());
         });
     }
 }

@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
     }
 
     /**
@@ -24,7 +23,5 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__ . '/Commands');
-
-        require base_path('routes/console.php');
     }
 }
