@@ -55,6 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://gosumove-api.lndo.site'),
+    'host' => parse_url(env('APP_URL', 'https://gosumove-api.lndo.site'))['host'],
 
     'asset_url' => env('ASSET_URL'),
 

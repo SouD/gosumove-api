@@ -23,7 +23,7 @@ class UuidCast implements CastsAttributes
             return $value;
         }
 
-        return Uuid::fromString($value);
+        return (string) Uuid::fromString($value);
     }
 
     /**

@@ -16,9 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', static function () {
-    return response()->noContent();
-});
+    return \response()->noContent();
+})->name('healthz');
 
-Route::middleware('auth:sanctum')->get('/user', static function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::name('auth.')
+            ->prefix('auth')
+            ->group(function () {
+                Route::get('user', static function (Request $request) {
+                    return $request->user();
+                })->name('user');
+            });
+    });

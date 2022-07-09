@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
@@ -53,15 +52,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
     ];
-
-    protected static function booted(): void
-    {
-        static::saving(static function (User $user) {
-            if (!$user->getAttribute($user->getKeyName())) {
-                $user->setAttribute($user->getKeyName(), Str::orderedUuid());
-            }
-        });
-    }
 
     public function permissions(): BelongsToMany
     {
