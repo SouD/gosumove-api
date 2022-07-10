@@ -15,6 +15,7 @@ class UserCreateCommand extends Command
      * @var string
      */
     protected $signature = 'user:create
+                            {organization : User organization (will be created if not found)}
                             {name : User name}
                             {password : User password}
                             {--email= : User email (default `name`@host if not specified)}
@@ -29,11 +30,12 @@ class UserCreateCommand extends Command
     public function handle(Hasher $hasher, Config $config): int
     {
         UserCreateJob::dispatchNow(
+            $this->argument('organization'),
             $this->argument('name'),
             $this->option('email') ?: $this->argument('name') . '@' . $config->get('app.host'),
             $hasher->make($this->argument('password')),
-            $this->option('verified'),
-            $this->option('role') ?: [],
+            (bool) $this->option('verified'),
+            $this->option('role') ?: []
         );
 
         return 0;
@@ -42,12 +44,14 @@ class UserCreateCommand extends Command
     public function rules(): array
     {
         return [
+            'organization' => ['required', 'string'],
             'name' => ['required', 'string', Rule::unique('users', 'name')],
             'password' => ['required', 'string'],
             'email' => ['nullable', 'email', Rule::unique('users', 'email')],
             'verified' => ['boolean'],
             'role' => ['nullable', 'array', 'min:1'],
             'role.*' => ['string', Rule::exists('roles', 'name')],
+            'name' => ['required', 'string', Rule::unique('users', 'name')],
         ];
     }
 }

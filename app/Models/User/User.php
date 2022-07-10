@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
@@ -35,12 +36,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'name',
         'email',
         'password',
+        'organization_id',
     ];
 
     /**
      * @var array<int, string>
      */
     protected $hidden = [
+        'id',
+        'organization_id',
         'password',
         'remember_token',
     ];
@@ -52,6 +56,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
     ];
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
 
     public function permissions(): BelongsToMany
     {

@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Models\Auth;
+namespace App\Models\User;
 
-use App\Enums\Auth\RoleNameEnum;
 use App\Models\AbstractModel as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
-class Role extends Model
+class Organization extends Model
 {
+    use HasApiTokens;
     use HasFactory;
 
     /**
@@ -26,15 +27,8 @@ class Role extends Model
         'id',
     ];
 
-    /**
-     * @var array
-     */
-    protected $casts = [
-        'name' => RoleNameEnum::class,
-    ];
-
-    public function permissions(): BelongsToMany
+    public function users(): HasMany
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->hasMany(User::class);
     }
 }

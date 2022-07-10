@@ -7,13 +7,14 @@ use App\Enums\Auth\PermissionNameEnum;
 use App\Enums\Auth\RoleNameEnum;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
+use App\Models\User\Organization;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User\User>
  */
 class UserFactory extends Factory
 {
@@ -31,6 +32,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'logins' => $this->faker->randomDigit(),
             'last_login_at' => Carbon::now(),
+            'organization_id' => Organization::factory(),
         ];
     }
 
