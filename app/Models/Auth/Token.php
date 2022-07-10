@@ -5,6 +5,7 @@ namespace App\Models\Auth;
 
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken as Model;
+use App\Casts\UuidCast;
 
 class Token extends Model
 {
@@ -12,6 +13,27 @@ class Token extends Model
      * @var string
      */
     protected $table = 'personal_access_tokens';
+
+    /**
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'id',
+        'tokenable_type',
+        'tokenable_id',
+        'token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => UuidCast::class,
+        'abilities' => 'json',
+        'last_used_at' => 'datetime',
+    ];
 
     protected static function booted(): void
     {

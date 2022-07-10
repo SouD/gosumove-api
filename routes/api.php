@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,8 @@ Route::middleware('auth:sanctum')
         Route::name('auth.')
             ->prefix('auth')
             ->group(function () {
-                Route::get('user', static function (Request $request) {
-                    return $request->user();
-                })->name('user');
+                Route::get('me', static function (Request $request) {
+                    return \response()->json($request->user());
+                })->name('me');
             });
     });

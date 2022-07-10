@@ -19,6 +19,13 @@ abstract class AbstractModel extends Model
      */
     public $incrementing = false;
 
+    /**
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'resource',
+    ];
+
     protected static function booted(): void
     {
         static::saving(static function (AbstractModel $model) {
@@ -36,5 +43,10 @@ abstract class AbstractModel extends Model
         return array_merge([
             $this->getKeyName() => UuidCast::class,
         ], parent::getCasts());
+    }
+
+    public function getResourceAttribute(): string
+    {
+        return $this->getMorphClass();
     }
 }
