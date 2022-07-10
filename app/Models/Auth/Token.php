@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Models\Auth;
 
+use App\Casts\UuidCast;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken as Model;
-use App\Casts\UuidCast;
 
 class Token extends Model
 {
