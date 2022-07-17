@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use App\Http\Controllers\Healthz\HealthzController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Healthz\HealthzController;
 
 /*
 |--------------------------------------------------------------------------
