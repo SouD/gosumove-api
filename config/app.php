@@ -213,4 +213,18 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'services' => [
+
+        'auth' => [
+
+            'default_roles' => [
+
+                \App\Enums\Auth\RoleNameEnum::USER,
+
+            ],
+
+        ],
+
+    ],
+
 ];

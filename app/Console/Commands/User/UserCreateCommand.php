@@ -29,7 +29,7 @@ class UserCreateCommand extends Command
 
     public function handle(Hasher $hasher, Config $config): int
     {
-        UserCreateJob::dispatchNow(
+        UserCreateJob::dispatchSync(
             $this->argument('organization'),
             $this->argument('name'),
             $this->option('email') ?: $this->argument('name') . '@' . $config->get('app.host'),

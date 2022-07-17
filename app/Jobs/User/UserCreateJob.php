@@ -22,7 +22,7 @@ class UserCreateJob extends Job
     public function handle(AuthService $authService, UserService $userService): void
     {
         $userService->create(
-            organization: $userService->getOrganization($this->organization, true),
+            organization: $userService->getOrganizationByName($this->organization, true),
             name: $this->name,
             email: $this->email,
             password: $this->password,

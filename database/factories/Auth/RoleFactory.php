@@ -22,8 +22,7 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()
-                ->name(),
+            'name' => RoleNameEnum::USER,
         ];
     }
 
@@ -31,7 +30,7 @@ class RoleFactory extends Factory
     {
         return $this->afterCreating(function (Role $role) {
             $role->permissions()
-                ->attach(Permission::whereIn('name', $this->getPermissionNameEnumsFor($role))->get());
+                ->attach(Permission::whereIn('name', $this->getPermissionNamesFor($role))->get());
         });
     }
 
@@ -45,7 +44,7 @@ class RoleFactory extends Factory
             ->state(new Sequence(...$cases->all()));
     }
 
-    public function getPermissionNameEnumsFor(Role $role): array
+    public function getPermissionNamesFor(Role $role): array
     {
         return match ($role->name) {
             default => [

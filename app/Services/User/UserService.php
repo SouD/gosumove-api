@@ -33,7 +33,7 @@ class UserService extends Service
         return $user;
     }
 
-    public function getOrganization(string $name, bool $createIfNotFound = false): ?Organization
+    public function getOrganizationByName(string $name, bool $createIfNotFound = false): ?Organization
     {
         if ($createIfNotFound) {
             return Organization::firstOrCreate(['name' => $name]);
