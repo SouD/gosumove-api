@@ -55,6 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://gosumove-api.lndo.site'),
+    'spa_url' => env('SPA_URL', 'http://localhost:5173'),
     'host' => parse_url(env('APP_URL', 'https://gosumove-api.lndo.site'))['host'],
 
     'asset_url' => env('ASSET_URL'),
@@ -195,6 +196,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\FortifyServiceProvider::class,
 
     ],
 

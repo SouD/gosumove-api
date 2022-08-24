@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HealthzController::class, 'index'])
-    ->name('healthz');
-
 Route::middleware('auth:sanctum')
     ->group(function () {
         Route::name('auth.')

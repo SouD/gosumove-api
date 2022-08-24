@@ -23,7 +23,11 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if ($request->expectsJson()) {
+                    return \response()->json($request->user());
+                }
+
+                return \redirect(\url(\config('app.spa_url') . '/dashboard'));
             }
         }
 
