@@ -15,3 +15,4 @@ yarn-error.log
 /.vscode
 .php-cs-fixer.php
 .php-cs-fixer.cache
+tools/**/vendor

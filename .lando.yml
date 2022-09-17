@@ -12,9 +12,9 @@ services:
   cache:
     portforward: 6379
   database:
-    portforward: 3306
+    portforward: 5432
     creds:
-      database: gosumove_dev
+      database: gosumove_local
 tooling:
   redis-cli:
     service: cache
