@@ -19,8 +19,7 @@ class PermissionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()
-                ->name(),
+            'name' => PermissionNameEnum::AUTH_LOGIN,
         ];
     }
 
