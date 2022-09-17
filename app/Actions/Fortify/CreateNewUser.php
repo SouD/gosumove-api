@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
@@ -37,6 +38,7 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'organization_id' => $input['organization_id'],
         ]);
     }
 }
