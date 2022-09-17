@@ -7,7 +7,7 @@ config:
   composer_version: '2.3.8'
   via: nginx
   database: postgres:14
-  xdebug: false
+  xdebug: "debug,coverage,develop"
 services:
   cache:
     portforward: 6379
@@ -24,3 +24,33 @@ tooling:
   phpcs:
     service: appserver
     cmd: vendor/bin/phpcs
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug for nginx.
+    cmd: docker-php-ext-enable xdebug && pkill -o -USR2 php-fpm
+    user: root
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug for nginx.
+    cmd: rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && pkill -o -USR2 php-fpm
+    user: root
+  profiling-on:
+    service: appserver
+    description: Enable XDebug profiling for Nginx.
+    cmd: "docker-php-ext-enable xdebug && echo 'max_execution_time=300' >> z && echo 'xdebug.mode=debug,develop,profile' > z && echo 'xdebug.output_dir=/app' >> z && echo 'xdebug.profiler_output_name=cachegrind.out.%u.%p.%r.%s.%R' >> z && mv z /usr/local/etc/php/conf.d/zzz-lando-xdebug-profiling.ini && pkill -o -USR2 php-fpm"
+    user: root
+  profiling-off:
+    service: appserver
+    description: Disable XDebug profiling for Nginx.
+    cmd: "rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm /usr/local/etc/php/conf.d/zzz-lando-xdebug-profiling.ini && pkill -o -USR2 php-fpm"
+    user: root
+  coverage-on:
+    service: appserver
+    description: Enable XDebug coverage for Nginx.
+    cmd: "docker-php-ext-enable xdebug && echo 'max_execution_time=300' >> z && echo 'xdebug.mode=debug,develop,coverage' > z && echo 'xdebug.output_dir=/app' >> z && echo 'xdebug.profiler_output_name=cachegrind.out.%u.%p.%r.%s.%R' >> z && mv z /usr/local/etc/php/conf.d/zzz-lando-xdebug-profiling.ini && pkill -o -USR2 php-fpm"
+    user: root
+  coverage-off:
+    service: appserver
+    description: Disable XDebug coverage for Nginx.
+    cmd: "rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm /usr/local/etc/php/conf.d/zzz-lando-xdebug-profiling.ini && pkill -o -USR2 php-fpm"
+    user: root
