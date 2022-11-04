@@ -12,13 +12,22 @@ class PermissionTest extends TestCase
 {
     public function test_it_has_relations(): void
     {
-        $permission = Permission::factory(1)
+        $permission = Permission::factory()
             ->has(Role::factory(1), 'roles')
-            ->create()
-            ->first();
+            ->create();
 
         $this->assertInstanceOf(BelongsToMany::class, $permission->roles());
 
         $this->assertNotEmpty($permission->roles);
+    }
+
+    public function test_it_has_resource_attribute()
+    {
+        $permission = Permission::factory()
+            ->create();
+
+        $resourceAttribute = $permission->getResourceAttribute();
+
+        $this->assertSame($resourceAttribute, 'permission'); // Same as morph class
     }
 }

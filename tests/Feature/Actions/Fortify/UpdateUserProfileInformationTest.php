@@ -13,9 +13,8 @@ class UpdateUserProfileInformationTest extends TestCase
     {
         $action = new UpdateUserProfileInformation();
 
-        $user = User::factory(1)
-            ->create()
-            ->first();
+        $user = User::factory()
+            ->create();
 
         $oldName = $user->name;
         $oldEmail = $user->email;

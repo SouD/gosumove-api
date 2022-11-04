@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Enums\Auth\PermissionNameEnum;
 use App\Models\Auth\Role;
 use App\Models\User\Organization;
 use App\Models\User\User;
@@ -46,5 +47,15 @@ class AuthService extends Service
                 ? ['*']
                 : $permissions->pluck('name')->all()
         );
+    }
+
+    public function hasPermission(Organization|User $model, string|PermissionNameEnum $permissionName): bool
+    {
+        if (\is_string($permissionName)) {
+            $permissionName = PermissionNameEnum::tryFrom($permissionName);
+        }
+
+        return $model->permissions->contains('name', '=', $permissionName)
+            || $model->roles->where(fn (Role $role) => $role->permissions->contains('name', '=', $permissionName))->isNotEmpty();
     }
 }

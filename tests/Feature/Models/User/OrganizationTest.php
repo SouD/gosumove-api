@@ -12,13 +12,22 @@ class OrganizationTest extends TestCase
 {
     public function test_it_has_relations(): void
     {
-        $organization = Organization::factory(1)
+        $organization = Organization::factory()
             ->has(User::factory(1), 'users')
-            ->create()
-            ->first();
+            ->create();
 
         $this->assertInstanceOf(HasMany::class, $organization->users());
 
         $this->assertNotEmpty($organization->users);
+    }
+
+    public function test_it_has_resource_attribute()
+    {
+        $organization = Organization::factory()
+            ->create();
+
+        $resourceAttribute = $organization->getResourceAttribute();
+
+        $this->assertSame($resourceAttribute, 'organization'); // Same as morph class
     }
 }

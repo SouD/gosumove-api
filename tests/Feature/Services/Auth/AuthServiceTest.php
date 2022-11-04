@@ -3,9 +3,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\Auth;
 
+use App\Enums\Auth\PermissionNameEnum;
 use App\Enums\Auth\RoleNameEnum;
 use App\Models\User\Organization;
+use App\Models\User\User;
 use App\Services\Auth\AuthService;
+use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
@@ -61,5 +64,37 @@ class AuthServiceTest extends TestCase
         );
 
         $this->assertEquals($token->accessToken->tokenable_id, $organization->id);
+    }
+
+    public function test_it_has_permissions(): void
+    {
+        $this->seed(PermissionSeeder::class);
+        $this->seed(RoleSeeder::class);
+
+        $authService = $this->app->make(AuthService::class);
+
+        $user = User::factory()
+            ->create();
+
+        $outcome = $authService->hasPermission(
+            model: $user,
+            permissionName: PermissionNameEnum::AUTH_LOGIN,
+        );
+
+        $this->assertTrue($outcome);
+
+        $outcome = $authService->hasPermission(
+            model: $user,
+            permissionName: 'auth.login',
+        );
+
+        $this->assertTrue($outcome);
+
+        $outcome = $authService->hasPermission(
+            model: $user,
+            permissionName: 'non_existing_permission',
+        );
+
+        $this->assertFalse($outcome);
     }
 }

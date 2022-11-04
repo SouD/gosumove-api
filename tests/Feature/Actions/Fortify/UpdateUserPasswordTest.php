@@ -18,11 +18,10 @@ class UpdateUserPasswordTest extends TestCase
 
         $oldPassword = $hasher->make('utveckla');
 
-        $user = User::factory(1)
+        $user = User::factory()
             ->create([
                 'password' => $oldPassword,
-            ])
-            ->first();
+            ]);
 
         $action->update(
             user: $user,
@@ -45,11 +44,10 @@ class UpdateUserPasswordTest extends TestCase
 
         $oldPassword = $hasher->make('utveckla');
 
-        $user = User::factory(1)
+        $user = User::factory()
             ->create([
                 'password' => $oldPassword,
-            ])
-            ->first();
+            ]);
 
         try {
             $action->update(

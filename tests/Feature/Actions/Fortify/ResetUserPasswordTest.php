@@ -17,11 +17,10 @@ class ResetUserPasswordTest extends TestCase
 
         $oldPassword = $hasher->make('utveckla');
 
-        $user = User::factory(1)
+        $user = User::factory()
             ->create([
                 'password' => $oldPassword,
-            ])
-            ->first();
+            ]);
 
         $action->reset(
             user: $user,

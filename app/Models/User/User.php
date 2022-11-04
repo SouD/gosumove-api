@@ -61,6 +61,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'last_login_at' => 'datetime',
     ];
 
+    /**
+     * @var array<string>
+     */
+    protected $with = [
+        'permissions',
+        'roles.permissions',
+    ];
+
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);

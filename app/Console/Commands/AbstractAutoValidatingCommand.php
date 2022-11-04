@@ -72,4 +72,14 @@ abstract class AbstractAutoValidatingCommand extends Command
     {
         return [];
     }
+
+    /**
+     * Needed to work together with ValidatesWhenResolvedTrait (it calls this method without checking if it exists).
+     *
+     * @return bool
+     */
+    public function isPrecognitive()
+    {
+        return false;
+    }
 }

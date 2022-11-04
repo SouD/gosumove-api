@@ -8,6 +8,7 @@ use App\Models\Auth\Role;
 use App\Models\Auth\Token;
 use App\Models\User\Organization;
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Model::shouldBeStrict();
+
         Relation::enforceMorphMap([
             'organization' => Organization::class,
             'permission' => Permission::class,

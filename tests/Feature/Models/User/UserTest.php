@@ -15,12 +15,11 @@ class UserTest extends TestCase
 {
     public function test_it_has_relations(): void
     {
-        $user = User::factory(1)
-            ->has(Organization::factory(1), 'organization')
+        $user = User::factory()
+            ->has(Organization::factory(), 'organization')
             ->has(Permission::factory(1), 'permissions')
             ->has(Role::factory(1), 'roles')
-            ->create()
-            ->first();
+            ->create();
 
         $this->assertInstanceOf(BelongsTo::class, $user->organization());
         $this->assertInstanceOf(BelongsToMany::class, $user->permissions());
@@ -29,5 +28,15 @@ class UserTest extends TestCase
         $this->assertNotNull($user->organization);
         $this->assertNotEmpty($user->permissions);
         $this->assertNotEmpty($user->roles);
+    }
+
+    public function test_it_has_resource_attribute()
+    {
+        $user = User::factory()
+            ->create();
+
+        $resourceAttribute = $user->getResourceAttribute();
+
+        $this->assertSame($resourceAttribute, 'user'); // Same as morph class
     }
 }
