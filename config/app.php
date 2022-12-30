@@ -56,7 +56,7 @@ return [
 
     'url' => env('APP_URL', 'https://gosumove-api.lndo.site'),
     'spa_url' => env('SPA_URL', 'http://localhost:5173'),
-    'host' => parse_url(env('APP_URL', 'https://gosumove-api.lndo.site'))['host'],
+    'host' => parse_url(env('SPA_URL', 'http://localhost:5173'))['host'],
 
     'asset_url' => env('ASSET_URL'),
 

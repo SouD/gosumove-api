@@ -4,21 +4,20 @@ declare(strict_types=1);
 namespace Tests\Feature\Actions\Fortify;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Models\User\Organization;
 use Tests\TestCase;
 
 class CreateNewFortifyUserTest extends TestCase
 {
     public function test_it_creates_user(): void
     {
-        $action = new CreateNewUser();
+        $action = $this->app->make(CreateNewUser::class);
 
         $user = $action->create([
             'name' => 'Test Testsson',
-            'email' => 'test+gosumove-api@lando.site',
+            'email' => 'test.testsson@localhost',
             'password' => 'utveckla',
             'password_confirmation' => 'utveckla',
-            'organization_id' => Organization::factory(1)->create()->first()->id,
+            'organization_name' => 'Test AB',
         ]);
 
         $this->assertModelExists($user);
@@ -26,7 +25,7 @@ class CreateNewFortifyUserTest extends TestCase
         $this->assertDatabaseCount('users', 1);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'test+gosumove-api@lando.site',
+            'email' => 'test.testsson@localhost',
         ]);
     }
 }

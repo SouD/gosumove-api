@@ -6,6 +6,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\URL;
 
 class RedirectIfAuthenticated
 {
@@ -23,10 +26,10 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if ($request->expectsJson()) {
-                    return \response()->json($request->user());
+                    return Response::json($request->user());
                 }
 
-                return \redirect(\url(\config('app.spa_url') . '/dashboard'));
+                return Response::redirectTo(URL::to(Config::get('app.spa_url') . '/dashboard'));
             }
         }
 

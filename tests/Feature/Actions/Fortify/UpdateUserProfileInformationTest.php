@@ -23,7 +23,7 @@ class UpdateUserProfileInformationTest extends TestCase
             user: $user,
             input: [
                 'name' => 'Test Testsson',
-                'email' => 'test+gosumove-api@lando.site',
+                'email' => 'test.testsson@localhost',
             ]
         );
 

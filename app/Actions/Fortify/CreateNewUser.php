@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
+use App\Jobs\User\UserCreateJob;
+use App\Models\User\Organization;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Hash;
+use App\Services\Auth\AuthService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -12,6 +14,10 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
+    public function __construct(public AuthService $authService)
+    {
+    }
 
     /**
      * Validate and create a newly registered user.
@@ -32,13 +38,17 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
+            'organization_name' => ['required', 'string', Rule::unique(Organization::class, 'name')],
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-            'organization_id' => $input['organization_id'],
-        ]);
+        UserCreateJob::dispatchSync(
+            organization: $input['organization_name'],
+            name: $input['name'],
+            email: $input['email'],
+            password: $input['password'],
+            isEmailVerified: false,
+        );
+
+        return User::firstWhere('email', $input['email']);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Jobs\User;
 use App\Jobs\AbstractJob as Job;
 use App\Services\Auth\AuthService;
 use App\Services\User\UserService;
+use Illuminate\Support\Collection;
 
 class UserCreateJob extends Job
 {
@@ -15,20 +16,26 @@ class UserCreateJob extends Job
         public string $email,
         public string $password,
         public bool $isEmailVerified,
-        public array $roleNames,
+        public array|Collection $roleNames = [],
     ) {
     }
 
     public function handle(AuthService $authService, UserService $userService): void
     {
+        $roles = $authService->getDefaultRoles();
+        $roleNames = Collection::make($this->roleNames);
+
+        if ($roleNames->isNotEmpty()) {
+            $roles = $roles->merge($authService->getRolesByNames($roleNames));
+        }
+
         $userService->create(
             organization: $userService->getOrganizationByName($this->organization, true),
             name: $this->name,
             email: $this->email,
             password: $this->password,
             isEmailVerified: $this->isEmailVerified,
-            roles: $authService->getDefaultRoles()
-                ->merge($authService->getRolesByNames($this->roleNames))
+            roles: $roles
         );
     }
 }

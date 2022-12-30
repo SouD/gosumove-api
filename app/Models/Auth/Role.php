@@ -24,6 +24,7 @@ class Role extends Model
      */
     protected $hidden = [
         'id',
+        'pivot',
     ];
 
     /**

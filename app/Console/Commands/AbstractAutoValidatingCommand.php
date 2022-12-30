@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidatesWhenResolvedTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -41,7 +42,7 @@ abstract class AbstractAutoValidatingCommand extends Command
             return $this->validator;
         }
 
-        $container = \resolve(Container::class);
+        $container = App::make(Container::class);
 
         $this->validator = $container->make(ValidationFactory::class)
             ->make(

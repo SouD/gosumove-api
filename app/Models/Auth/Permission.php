@@ -24,6 +24,7 @@ class Permission extends Model
      */
     protected $hidden = [
         'id',
+        'pivot',
     ];
 
     /**
