@@ -6,7 +6,7 @@ namespace App\Actions\Fortify;
 use App\Jobs\User\UserCreateJob;
 use App\Models\User\Organization;
 use App\Models\User\User;
-use App\Services\Auth\AuthService;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -15,7 +15,7 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
-    public function __construct(public AuthService $authService)
+    public function __construct(public Hasher $hasher)
     {
     }
 
@@ -45,7 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             organization: $input['organization_name'],
             name: $input['name'],
             email: $input['email'],
-            password: $input['password'],
+            password: $this->hasher->make($input['password']),
             isEmailVerified: false,
         );
 
