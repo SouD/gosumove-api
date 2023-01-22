@@ -6,7 +6,7 @@ namespace App\Providers;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
 use App\Models\Auth\Token;
-use App\Models\User\Organization;
+use App\Models\Organization\Organization;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;

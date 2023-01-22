@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Sanctum;
+namespace Tests\Feature\Http\Middleware;
 
 use App\Http\Middleware\TrustHosts;
 use Illuminate\Support\Facades\Config;

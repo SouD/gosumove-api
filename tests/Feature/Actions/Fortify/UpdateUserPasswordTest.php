@@ -6,7 +6,6 @@ namespace Tests\Feature\Actions\Fortify;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Models\User\User;
 use Exception;
-use Illuminate\Contracts\Hashing\Hasher;
 use Tests\TestCase;
 
 class UpdateUserPasswordTest extends TestCase
@@ -14,14 +13,11 @@ class UpdateUserPasswordTest extends TestCase
     public function test_it_updates_user_password(): void
     {
         $action = new UpdateUserPassword();
-        $hasher = $this->app->make(Hasher::class);
-
-        $oldPassword = $hasher->make('utveckla');
-
         $user = User::factory()
             ->create([
-                'password' => $oldPassword,
+                'password' => 'utveckla',
             ]);
+        $oldPassword = $user->password;
 
         $action->update(
             user: $user,
@@ -40,14 +36,11 @@ class UpdateUserPasswordTest extends TestCase
     public function test_it_fails_to_update_user_password(): void
     {
         $action = new UpdateUserPassword();
-        $hasher = $this->app->make(Hasher::class);
-
-        $oldPassword = $hasher->make('utveckla');
-
         $user = User::factory()
             ->create([
-                'password' => $oldPassword,
+                'password' => 'utveckla',
             ]);
+        $oldPassword = $user->password;
 
         try {
             $action->update(

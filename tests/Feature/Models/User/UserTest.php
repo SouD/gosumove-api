@@ -5,7 +5,7 @@ namespace Tests\Feature\Models\User;
 
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use App\Models\User\Organization;
+use App\Models\Organization\Organization;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

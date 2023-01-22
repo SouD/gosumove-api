@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\User;
 
-use App\Models\User\Organization;
+use App\Models\Organization\Organization;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Tests\TestCase;

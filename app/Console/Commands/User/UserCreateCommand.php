@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\User;
 
-use App\Console\Commands\AbstractAutoValidatingCommand as Command;
-use App\Jobs\User\UserCreateJob;
+use App\Actions\Fortify\CreateNewUserAndOrganizationAction;
+use App\Data\User\UserData;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Contracts\Hashing\Hasher;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class UserCreateCommand extends Command
 {
@@ -20,38 +21,32 @@ class UserCreateCommand extends Command
                             {password : User password}
                             {--email= : User email (default `name`@host if not specified)}
                             {--verified : User email verified or not}
-                            {--role=* : Additional roles beyond the basics}';
+                            {--roles=* : Additional roles beyond the basics}';
 
     /**
      * @var string
      */
     protected $description = 'Create a user based on input arguments';
 
-    public function handle(Hasher $hasher, Config $config): int
+    public function handle(Config $config, CreateNewUserAndOrganizationAction $createNewUserAndOrganization): int
     {
-        UserCreateJob::dispatchSync(
-            $this->argument('organization'),
-            $this->argument('name'),
-            $this->option('email') ?: $this->argument('name') . '@' . $config->get('app.host'),
-            $hasher->make($this->argument('password')),
-            (bool) $this->option('verified'),
-            $this->option('role') ?: []
+        $input = Collection::make($this->arguments())
+            ->merge($this->options());
+
+        if (!$input->get('email')) {
+            $input->put('email', Str::slug($input->get('name')) . '@' . $config->get('app.host'));
+        }
+
+        $input->put('password', $input->get('password'));
+        $input->put('password_confirmation', $input->get('password'));
+        $input->put('organization', ['name' => $input->pull('organization')]);
+
+        $user = $createNewUserAndOrganization->execute(
+            data: UserData::validateAndCreate($input),
         );
 
-        return 0;
-    }
+        $this->info('User created: ' . (string) $user);
 
-    public function rules(): array
-    {
-        return [
-            'organization' => ['required', 'string'],
-            'name' => ['required', 'string', Rule::unique('users', 'name')],
-            'password' => ['required', 'string'],
-            'email' => ['nullable', 'email', Rule::unique('users', 'email')],
-            'verified' => ['boolean'],
-            'role' => ['nullable', 'array', 'min:1'],
-            'role.*' => ['string', Rule::exists('roles', 'name')],
-            'name' => ['required', 'string', Rule::unique('users', 'name')],
-        ];
+        return 0;
     }
 }

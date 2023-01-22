@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Sanctum;
+namespace Tests\Feature\Http\Middleware;
 
 use App\Http\Middleware\Authenticate;
 use App\Models\Auth\Permission;
 use App\Models\Auth\Role;
-use App\Models\User\Organization;
+use App\Models\Organization\Organization;
 use App\Models\User\User;
 use Exception;
 use Illuminate\Auth\AuthenticationException;

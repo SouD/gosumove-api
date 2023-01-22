@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Commands\User;
 
-use App\Jobs\User\UserCreateJob;
 use App\Models\Auth\Role;
 use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
@@ -17,9 +16,13 @@ class UserCreateCommandTest extends TestCase
         $role = Role::factory()
             ->create();
 
-        $this->artisan('user:create "Test Ltd" "Test Testsson" password --email=test@localhost --verified --role=' . $role->name->value)
+        $this->artisan('user:create "Test Ltd" "Test Testsson" password --email=test@localhost --verified --roles=' . $role->name->value)
             ->assertExitCode(0);
 
-        Bus::assertDispatchedSync(UserCreateJob::class);
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test Testsson',
+            'email' => 'test@localhost',
+        ]);
     }
 }
