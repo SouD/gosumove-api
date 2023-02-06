@@ -64,7 +64,7 @@
             "@php artisan key:generate --ansi"
         ],
         "php-cs-fixer": [
-            "php-cs-fixer fix --diff --ansi -n --verbose"
+            "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --diff --ansi -n --verbose"
         ]
     },
     "extra": {

@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Actions\Fortify;
 
-use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Actions\Fortify\UpdateUserProfileAction;
 use App\Models\User\User;
 use Tests\TestCase;
 
-class UpdateUserProfileInformationTest extends TestCase
+class FortifyUpdateUserProfileActionTest extends TestCase
 {
     public function test_it_updates_user_password(): void
     {
-        $action = new UpdateUserProfileInformation();
+        $action = $this->app->make(UpdateUserProfileAction::class);
 
         $user = User::factory()
             ->create();
@@ -31,5 +31,6 @@ class UpdateUserProfileInformationTest extends TestCase
 
         $this->assertNotEquals($oldName, $user->name);
         $this->assertNotEquals($oldEmail, $user->email);
+        $this->assertNull($user->email_verified_at);
     }
 }

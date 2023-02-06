@@ -7,12 +7,10 @@ use App\Actions\Organization\OrganizationCreateAction;
 use App\Actions\User\UserCreateAction;
 use App\Data\User\UserData;
 use App\Models\User\User;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Laravel\Fortify\Contracts\CreatesNewUsers as CreatesNewUsersContract;
 
-class CreateNewUserAndOrganizationAction implements CreatesNewUsers
+class CreateNewUserAndOrganizationAction implements CreatesNewUsersContract
 {
-    use PasswordValidationRules;
-
     public function __construct(
         public OrganizationCreateAction $organizationCreateAction,
         public UserCreateAction $userCreateAction
@@ -33,7 +31,7 @@ class CreateNewUserAndOrganizationAction implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        $data = UserData::from($input);
+        $data = UserData::validateAndCreate($input);
 
         return $this->userCreateAction->execute(
             data: $data,
