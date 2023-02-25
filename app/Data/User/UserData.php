@@ -6,6 +6,7 @@ namespace App\Data\User;
 use App\Data\Organization\OrganizationData;
 use Carbon\CarbonImmutable;
 use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\Validation\Confirmed;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Max;
@@ -18,7 +19,7 @@ use Spatie\LaravelData\Lazy;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use Spatie\LaravelData\Optional;
 
-#[MapInputName(SnakeCaseMapper::class)]
+#[MapInputName(SnakeCaseMapper::class), MapOutputName(SnakeCaseMapper::class)]
 class UserData extends Data
 {
     public function __construct(
@@ -32,6 +33,8 @@ class UserData extends Data
 
         #[Sometimes, StringType, Confirmed, Max(161)]
         public string|Optional $password,
+
+        public string|Optional $passwordConfirmation,
 
         public string|Optional $rememberToken,
 
