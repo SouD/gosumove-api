@@ -10,6 +10,14 @@ use Tests\TestCase;
 
 class PermissionTest extends TestCase
 {
+    public function test_it_can_be_created(): void
+    {
+        Permission::factory()
+            ->create();
+
+        $this->assertDatabaseCount((new Permission())->getTable(), 1);
+    }
+
     public function test_it_has_relations(): void
     {
         $permission = Permission::factory()

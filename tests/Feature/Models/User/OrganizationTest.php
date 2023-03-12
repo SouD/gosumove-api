@@ -10,6 +10,14 @@ use Tests\TestCase;
 
 class OrganizationTest extends TestCase
 {
+    public function test_it_can_be_created(): void
+    {
+        Organization::factory()
+            ->create();
+
+        $this->assertDatabaseCount((new Organization())->getTable(), 1);
+    }
+
     public function test_it_has_relations(): void
     {
         $organization = Organization::factory()

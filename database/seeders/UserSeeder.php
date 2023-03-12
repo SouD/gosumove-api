@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        Artisan::call('user:create root root utveckla --verified --role=root');
+        Artisan::call('user:create root root utveckla --verified --roles=root');
 
         User::factory(10)
             ->create();

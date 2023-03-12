@@ -1,7 +1,7 @@
 name: gosumove-api
 recipe: laravel
 config:
-  php: '8.1'
+  php: '8.2'
   cache: redis:6
   webroot: public
   composer_version: '2.3.8'

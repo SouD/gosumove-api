@@ -10,6 +10,14 @@ use Tests\TestCase;
 
 class RoleTest extends TestCase
 {
+    public function test_it_can_be_created(): void
+    {
+        Role::factory()
+            ->create();
+
+        $this->assertDatabaseCount((new Role())->getTable(), 1);
+    }
+
     public function test_it_has_relations(): void
     {
         $role = Role::factory()

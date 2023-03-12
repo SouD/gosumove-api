@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace App\Models\Auth;
 
 use App\Casts\UuidCast;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken as Model;
 
 class Token extends Model
 {
+    use HasFactory;
+
     /**
      * @var string
      */

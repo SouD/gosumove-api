@@ -13,6 +13,14 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    public function test_it_can_be_created(): void
+    {
+        User::factory()
+            ->create();
+
+        $this->assertDatabaseCount((new User())->getTable(), 1);
+    }
+
     public function test_it_has_relations(): void
     {
         $user = User::factory()
