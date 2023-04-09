@@ -50,4 +50,14 @@ abstract class AbstractModel extends Model
     {
         return $this->getMorphClass();
     }
+
+    /**
+     * Get the queueable identity for the entity.
+     *
+     * @return mixed
+     */
+    public function getQueueableId()
+    {
+        return (string) $this->getKey();
+    }
 }

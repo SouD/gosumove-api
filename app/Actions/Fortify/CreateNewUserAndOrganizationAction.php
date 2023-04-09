@@ -8,6 +8,7 @@ use App\Actions\Organization\OrganizationCreateAction;
 use App\Actions\User\UserCreateAction;
 use App\Data\User\UserData;
 use App\Models\User\User;
+use Illuminate\Support\Arr;
 use Laravel\Fortify\Contracts\CreatesNewUsers as CreatesNewUsersContract;
 
 class CreateNewUserAndOrganizationAction implements CreatesNewUsersContract
@@ -31,6 +32,9 @@ class CreateNewUserAndOrganizationAction implements CreatesNewUsersContract
      */
     public function create(array $input)
     {
+        Arr::set($input, 'organization.name', Arr::get($input, 'organization.name', Arr::get($input, 'organization_name')));
+        Arr::forget($input, 'organization_name');
+
         $data = UserData::validateAndCreate($input);
 
         return $this->userCreateAction->execute(
