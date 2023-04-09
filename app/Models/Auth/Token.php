@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models\Auth;
@@ -41,7 +42,7 @@ class Token extends Model
     protected static function booted(): void
     {
         static::saving(static function (Token $token) {
-            if (!$token->getAttribute($token->getKeyName())) {
+            if (! $token->getAttribute($token->getKeyName())) {
                 $token->setAttribute($token->getKeyName(), Str::orderedUuid());
             }
         });

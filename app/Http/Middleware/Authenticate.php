@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Middleware;
@@ -12,8 +13,8 @@ class Authenticate extends Middleware
 {
     protected function redirectTo($request)
     {
-        if (!$request->expectsJson()) {
-            return Response::redirectTo(URL::to(Config::get('app.spa_url') . '/login'));
+        if (! $request->expectsJson()) {
+            return Response::redirectTo(URL::to(Config::get('app.spa_url').'/login'));
         }
     }
 }

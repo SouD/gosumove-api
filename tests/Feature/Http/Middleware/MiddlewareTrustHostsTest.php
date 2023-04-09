@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\Http\Middleware;
@@ -15,6 +16,6 @@ class MiddlewareTrustHostsTest extends TestCase
 
         $hosts = $middleware->hosts();
 
-        $this->assertEquals(['^(.+\.)?' . Config::get('app.host') . '$'], $hosts);
+        $this->assertEquals(['^(.+\.)?'.Config::get('app.host').'$'], $hosts);
     }
 }

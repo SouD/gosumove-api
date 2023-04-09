@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Console\Commands\User;
@@ -33,8 +34,8 @@ class UserCreateCommand extends Command
         $input = Collection::make($this->arguments())
             ->merge($this->options());
 
-        if (!$input->get('email')) {
-            $input->put('email', Str::slug($input->get('name')) . '@' . $config->get('app.host'));
+        if (! $input->get('email')) {
+            $input->put('email', Str::slug($input->get('name')).'@'.$config->get('app.host'));
         }
 
         $input->put('password', $input->get('password'));
@@ -45,7 +46,7 @@ class UserCreateCommand extends Command
             data: UserData::validateAndCreate($input),
         );
 
-        $this->info('User created: ' . (string) $user);
+        $this->info('User created: '.(string) $user);
 
         return 0;
     }

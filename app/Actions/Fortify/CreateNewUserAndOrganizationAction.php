@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Actions\Fortify;
@@ -25,7 +26,6 @@ class CreateNewUserAndOrganizationAction implements CreatesNewUsersContract
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array  $input
      *
      * @return \App\Models\User\User
      */

@@ -5,8 +5,9 @@ help:
 
 .PHONY: install-tools ## Install php tools
 install-tools:
-	cp tools/git-hooks/pre-commit .git/hooks/
+	cp tools/git-hooks/pre-commit .git/hooks/ && \
+    composer install --working-dir=tools/laravel-pint
 
-.PHONY: lint ## shorthand composer php-cs-fixer
+.PHONY: lint ## shorthand composer lint
 lint:
-	composer php-cs-fixer
+	composer lint

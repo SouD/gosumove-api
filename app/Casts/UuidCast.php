@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Casts;
@@ -14,7 +15,6 @@ class UuidCast implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     *
      * @return array
      */
     public function get($model, $key, $value, $attributes)
@@ -31,7 +31,6 @@ class UuidCast implements CastsAttributes
      * @param  string  $key
      * @param  array  $value
      * @param  array  $attributes
-     *
      * @return UuidInterface
      */
     public function set($model, $key, $value, $attributes)

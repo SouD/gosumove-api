@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\Commands\User;
@@ -17,7 +18,7 @@ class UserCreateCommandTest extends TestCase
         $role = Role::factory()
             ->create();
 
-        $this->artisan('user:create "Test Ltd" "Test Testsson" password --email=test@localhost --verified --roles=' . $role->name->value)
+        $this->artisan('user:create "Test Ltd" "Test Testsson" password --email=test@localhost --verified --roles='.$role->name->value)
             ->assertExitCode(0);
 
         $this->assertDatabaseCount((new User)->getTable(), 1);

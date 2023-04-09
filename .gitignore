@@ -13,6 +13,4 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-.php-cs-fixer.php
-.php-cs-fixer.cache
 tools/**/vendor

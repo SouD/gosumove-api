@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
@@ -29,7 +30,7 @@ abstract class AbstractModel extends Model
     protected static function booted(): void
     {
         static::saving(static function (AbstractModel $model) {
-            if (!$model->getAttribute($model->getKeyName())) {
+            if (! $model->getAttribute($model->getKeyName())) {
                 $model->setAttribute($model->getKeyName(), Str::orderedUuid());
             }
         });
